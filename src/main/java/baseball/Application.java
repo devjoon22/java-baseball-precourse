@@ -7,7 +7,28 @@ import static camp.nextstep.edu.missionutils.Console.readLine;
 public class Application {
     public static void main(String[] args) {
         // TODO: 프로그램 구현
+        baseballStart();
+    }
 
+    private static void baseballStart() {
+        String isContinue;
+        do {
+            Fitch fitch = new Fitch();
+            fitchJudge(fitch);
+
+            isContinue = inputContinueOrExit();
+        } while(isContinue.equals("1"));
+    }
+
+    private static void fitchJudge(Fitch fitch) {
+        int strikeCount = 0;
+
+        while (strikeCount != 3){
+            String inputNumbersString = inputThreeNumber();
+            Map<String, Integer> countBallAndStrike = fitch.countBallAndStrike(inputNumbersString);
+
+            strikeCount = printBallAndStrikeAndReturnStrike(countBallAndStrike);
+        }
     }
 
     private static String inputThreeNumber() {
@@ -31,7 +52,7 @@ public class Application {
         return inputString;
     }
 
-    private static void printBallAndStrikeAndReturnStrike(Map<String, Integer> ballStrikeCountMap) {
+    private static int printBallAndStrikeAndReturnStrike(Map<String, Integer> ballStrikeCountMap) {
         int ballCount = ballStrikeCountMap.getOrDefault("ball", 0);
         int strikeCount = ballStrikeCountMap.getOrDefault("strike", 0);
 
@@ -39,6 +60,8 @@ public class Application {
         if (strikeCount > 0) System.out.print(strikeCount +"스트라이크");
         if (ballCount == 0 && strikeCount == 0) System.out.print("낫싱");
         System.out.println();
+
+        return strikeCount;
     }
 }
 
